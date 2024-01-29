@@ -5,7 +5,7 @@ const routePedido = Router();
 
 // Rota para listar os pedidos
 routePedido.get("/pedidos", function (req, res) {
-  let sql = "SELECT * FROM produto";
+  let sql = `SELECT id_pedido, total,nome, email, strftime('%d/%m/%Y', dt_pedido) as dt_pedido FROM pedido`;
   // Executar um comando SQL
   db.all(sql, [], function (err, rows) {
     if (err)
@@ -18,8 +18,8 @@ routePedido.get("/pedidos", function (req, res) {
 
 // Rota para adicionar um novo pedido
 routePedido.post("/pedidos", function (req, res) {
-  let sql = `INSERT INTO pedido (id_usuario, nome, email, fone, endereco, bairro, cidade, uf, cep, total)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  let sql = `INSERT INTO pedido (id_usuario, nome, email, fone, endereco, bairro, cidade, uf, cep, total, dt_pedido)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_date)
                 returning id_pedido`;
 
   let p = req.body;
